@@ -11,6 +11,7 @@
   "author": "JFTW",
   "license": "MIT",
   "dependencies": {
+    "@pixi/sound": "^5.2.1",
     "core-js": "^3.20.3",
     "pixi.js": "^7.1.2"
   },
