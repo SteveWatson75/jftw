@@ -19,9 +19,10 @@ const app = new Application({
 });
 
 const stage = app.stage;
-let selectedNumbers: number[] = [];
 
 window.onload = async (): Promise<void> => {
+  let selectedNumbers: number[] = [];
+
   const textures = await loadGameAssets();
 
   document.body.appendChild(app.view as any);
@@ -41,10 +42,9 @@ window.onload = async (): Promise<void> => {
   const mysterySprite = Sprite.from(textures.mystery);
   const buttonSprite = Sprite.from(textures.button);
 
-  const results = (): void => {
+  const displayResult = (): void => {
     resultContainer.x = 500;
     resultContainer.y = 100;
-
     mysterySprite.height = 100;
     resultDefault.width = 150;
     resultDefault.height = 150;
@@ -55,7 +55,9 @@ window.onload = async (): Promise<void> => {
   };
 
   const numbersSelection = (): void => {
-    numberContainer.y = app.stage.height / 2 - 400;
+    numberContainer.y = 200;
+    numberContainer.width = app.screen.width;
+    numberContainer.pivot.x = numberContainer.width * 0.5;
     numberContainer.sortableChildren = true;
 
     for (let i = 0; i < 9; i++) {
@@ -104,6 +106,7 @@ window.onload = async (): Promise<void> => {
       animatedSprite.play();
       resultContainer.removeChildren();
       resultContainer.addChild(animatedSprite);
+
       setTimeout(() => {
         showResult();
       }, 2000);
@@ -131,6 +134,7 @@ window.onload = async (): Promise<void> => {
             resultContainer.addChild(resultDefault, mysterySprite);
             stage.removeChild(winSprite, buttonSprite);
           };
+
           stage.addChild(winSprite);
           sound.play("win_sound");
         } else {
@@ -140,21 +144,22 @@ window.onload = async (): Promise<void> => {
           loseSprite.interactive = true;
           loseSprite.cursor = "pointer";
           stage.removeChild(buttonSprite);
+
           numberContainer.children.forEach((child) => {
             child.interactive = false;
           });
+
           loseSprite.onclick = () => {
             selectedNumbers = [];
             numberContainer.children.forEach((child) => {
               child.alpha = 0.5;
+              child.interactive = true;
             });
             resultContainer.removeChildren();
             resultContainer.addChild(resultDefault, mysterySprite);
             stage.removeChild(loseSprite);
-            numberContainer.children.forEach((child) => {
-              child.interactive = true;
-            });
           };
+
           stage.addChild(loseSprite);
           sound.play("lose_sound");
         }
@@ -162,7 +167,7 @@ window.onload = async (): Promise<void> => {
     };
   };
 
-  results();
+  displayResult();
   numbersSelection();
   button(textures);
 };
