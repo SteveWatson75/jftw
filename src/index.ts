@@ -56,8 +56,6 @@ window.onload = async (): Promise<void> => {
 
   const numbersSelection = (): void => {
     numberContainer.y = 200;
-    numberContainer.width = app.screen.width;
-    numberContainer.pivot.x = numberContainer.width * 0.5;
     numberContainer.sortableChildren = true;
 
     for (let i = 0; i < 9; i++) {
@@ -81,7 +79,7 @@ window.onload = async (): Promise<void> => {
     }
   };
 
-  const button = (textures: Record<string, any>): void => {
+  const button = (): void => {
     buttonSprite.x = 500;
     buttonSprite.y = 450;
     buttonSprite.width = 175;
@@ -169,7 +167,7 @@ window.onload = async (): Promise<void> => {
 
   displayResult();
   numbersSelection();
-  button(textures);
+  button();
 };
 
 async function loadGameAssets() {
